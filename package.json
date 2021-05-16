@@ -1,0 +1,48 @@
+{
+  "name": "cookie-monster",
+  "version": "0.1.0",
+  "private": true,
+  "bin": {
+    "cookie-monster": "bin/cookie-monster.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "eslint . --ext .ts",
+    "cdk": "cdk",
+    "prepare": "husky install"
+  },
+  "repository": "timbru31/mms-discord-cookie-bot",
+  "author": "Tim Brust <github@timbrust.de>",
+  "license": " GPL-3.0-or-later",
+  "bugs": "https://github.com/timbru31/mms-discord-cookie-bot/issues",
+  "homepage": "https://github.com/timbru31/mms-discord-cookie-bot#readme",
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.76",
+    "@types/node": "^14.4.45",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "aws-cdk": "1.104.0",
+    "esbuild": "^0.11.22",
+    "eslint": "^7.26.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.104.0",
+    "@aws-cdk/aws-dynamodb": "^1.104.0",
+    "@aws-cdk/aws-lambda": "^1.104.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.104.0",
+    "@aws-cdk/aws-secretsmanager": "^1.104.0",
+    "@aws-cdk/core": "^1.104.0",
+    "discord-bot-cdk-construct": "^0.1.8",
+    "source-map-support": "^0.5.19"
+  },
+  "funding": "https://github.com/sponsors/timbru31"
+}
