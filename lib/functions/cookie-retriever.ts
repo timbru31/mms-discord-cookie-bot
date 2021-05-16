@@ -1,6 +1,6 @@
-import axios from "axios";
-import { Context, Callback } from "aws-lambda";
+import { Callback, Context } from "aws-lambda";
 import { DocumentClient, UpdateItemInput } from "aws-sdk/clients/dynamodb";
+import axios from "axios";
 import { DiscordEventRequest, DiscordResponseData } from "discord-bot-cdk-construct";
 import { getDiscordSecrets } from "discord-bot-cdk-construct/dist/functions/utils/DiscordSecrets";
 
