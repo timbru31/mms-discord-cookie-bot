@@ -39,3 +39,7 @@ In the AWS Secrets Manager, modify the corresponding secret (JSON value):
 - `cdk deploy` deploy this stack to your default AWS account/region
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
+
+---
+
+Built by (c) Tim Brust and contributors. Released under the GPL v3 license.
