@@ -10,26 +10,32 @@
 
 # Installation/Deployment
 
-Clone repository, setup the AWS CDK.  
+Clone repository, setup the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/work-with.html#work-with-prerequisites).  
 Configure the DynamoDB ARN by setting it as an enviornment variable `COOKIE_ARN`, for example:
 
 ```sh
 export COOKIE_ARN="arn:aws:dynamodb:eu-central-1:9999999:table/my-cookie-jar"
 ```
 
-You need to create a new Discord bot, register the [Slash command](https://discord.com/developers/docs/interactions/slash-commands#registering-a-command)
+If you omit the ARN then the construct will create a new DynamoDB table for you
 
-In the AWS Secrets Manager, modify the corresponding secret (JSON value):
+You need to create a [new Discord bot](https://discord.com/developers/applications) and register the [Slash command](https://discord.com/developers/docs/interactions/slash-commands#registering-a-command) (make sure to use the Bot token not the OAuth 2 token!). Ensure to configure two options: `store` and `productId` -  or alter the code. 😉
 
-```json
+To deploy the application, run `cdk deploy` (see below for more commands).
+
+In the AWS Secrets Manager, modify the created secret (paste it as plain text JSON object):
+
+```json5
 {
   "appId": "XXXXX",
   "publicKey": "XXXXX",
-  "clientId": "XXXXX",
-  "authToken": "XXXXX",
-  "serverId": "XXXXX"
+  "clientId": "XXXXX", // OAuth 2 - can be the same as appId
+  "authToken": "XXXXX", // OAuth 2
 }
 ```
+
+Enter the CDK construct Lambda URL with the suffix `/event` as your interaction URL.  
+Finally, configure the OAuth 2 scope (`bot` and `applications.commands`) and use the URL to add the bot to your server.
 
 ## Useful commands
 
