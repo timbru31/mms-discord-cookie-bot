@@ -1,5 +1,4 @@
-import { Callback, Context } from "aws-lambda";
-import { DocumentClient, UpdateItemInput } from "aws-sdk/clients/dynamodb";
+import { DynamoDBClient, UpdateItemCommand, UpdateItemCommandInput } from "@aws-sdk/client-dynamodb";
 import axios from "axios";
 import { DiscordEventRequest, DiscordResponseData } from "discord-bot-cdk-construct";
 import { getDiscordSecrets } from "discord-bot-cdk-construct/dist/functions/utils/DiscordSecrets";
@@ -12,8 +11,7 @@ const storeTranslations = {
   saturn: "Saturn",
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function handler(event: DiscordEventRequest, _: Context, __: Callback): Promise<string> {
+export async function handler(event: DiscordEventRequest): Promise<string> {
   const response: DiscordResponseData = {
     tts: false,
     content: "Do you control the cookie or does the cookie control you? (Invalid request)",
@@ -24,19 +22,19 @@ export async function handler(event: DiscordEventRequest, _: Context, __: Callba
     const store = event.jsonBody.data?.options?.find((option) => option?.name === "store")?.value as keyof typeof storeTranslations;
     const productId = event.jsonBody.data?.options?.find((option) => option?.name === "product_id")?.value;
     if (store && productId) {
-      const db = new DocumentClient();
-      const params = {
+      const client = new DynamoDBClient({});
+      const params: UpdateItemCommandInput = {
         TableName: TABLE_NAME,
         Key: {
-          store,
-          productId,
+          store: { S: store },
+          productId: { S: productId },
         },
         UpdateExpression: "REMOVE cookies[0]",
         ReturnValues: "ALL_OLD",
-      } as UpdateItemInput;
-      const dbResponse = await db.update(params).promise();
-      if (dbResponse.Attributes?.cookies?.length) {
-        response.content = `🍪 You requested a cookie for \`${dbResponse.Attributes.title}\`, \`${productId}\` at \`${storeTranslations[store]}\`, so here it is: \n${dbResponse.Attributes.cookies[0]}`;
+      };
+      const dbResponse = await client.send(new UpdateItemCommand(params));
+      if (dbResponse.Attributes?.cookies?.L?.length) {
+        response.content = `🍪 You requested a cookie for \`${dbResponse.Attributes.title.S}\`, \`${productId}\` at \`${storeTranslations[store]}\`, so here it is: \n${dbResponse.Attributes.cookies.L[0].S}`;
       } else {
         response.content = `📭 You requested a cookie for \`${productId}\` at \`${storeTranslations[store]}\`, but I'm out of 🍪. Nom nom nom.`;
       }
