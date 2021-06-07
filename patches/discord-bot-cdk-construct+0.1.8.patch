@@ -1,0 +1,14 @@
+diff --git a/node_modules/discord-bot-cdk-construct/dist/functions/DiscordBotFunction.js b/node_modules/discord-bot-cdk-construct/dist/functions/DiscordBotFunction.js
+index 3f661e0..f81e96b 100644
+--- a/node_modules/discord-bot-cdk-construct/dist/functions/DiscordBotFunction.js
++++ b/node_modules/discord-bot-cdk-construct/dist/functions/DiscordBotFunction.js
+@@ -37,6 +37,9 @@ async function handler(event, context, callback) {
+                     console.log('Returning temporary response...');
+                     return {
+                         type: 5,
++                        data: {
++                          flags: 64
++                        }
+                     };
+                 }
+                 break;
