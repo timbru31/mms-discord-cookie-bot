@@ -4,14 +4,15 @@
 
 ## Supported stores
 
-- Saturn
-- MediaMarkt Germany
 - MediaMarkt Austria
+- MediaMarkt Germany
+- MediaMarkt Spain
+- Saturn
 
 # Installation/Deployment
 
 Clone repository, setup the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/work-with.html#work-with-prerequisites).  
-Configure the DynamoDB ARN by setting it as an enviornment variable `COOKIE_ARN`, for example:
+Configure the DynamoDB ARN by setting it as an environment variable `COOKIE_ARN`, for example:
 
 ```sh
 export COOKIE_ARN="arn:aws:dynamodb:eu-central-1:9999999:table/my-cookie-jar"
@@ -19,7 +20,7 @@ export COOKIE_ARN="arn:aws:dynamodb:eu-central-1:9999999:table/my-cookie-jar"
 
 If you omit the ARN then the construct will create a new DynamoDB table for you
 
-You need to create a [new Discord bot](https://discord.com/developers/applications) and register the [Slash command](https://discord.com/developers/docs/interactions/slash-commands#registering-a-command) (make sure to use the Bot token not the OAuth 2 token!). Ensure to configure two options: `store` and `productId` -  or alter the code. 😉
+You need to create a [new Discord bot](https://discord.com/developers/applications) and register the [Slash command](https://discord.com/developers/docs/interactions/slash-commands#registering-a-command) (make sure to use the Bot token not the OAuth 2 token!). Ensure to configure two options: `store` and `productId` - or alter the code. 😉
 
 To deploy the application, run `cdk deploy` (see below for more commands).
 
@@ -27,10 +28,10 @@ In the AWS Secrets Manager, modify the created secret (paste it as plain text JS
 
 ```json5
 {
-  "appId": "XXXXX",
-  "publicKey": "XXXXX",
-  "clientId": "XXXXX", // OAuth 2 - can be the same as appId
-  "authToken": "XXXXX", // OAuth 2
+  appId: "XXXXX",
+  publicKey: "XXXXX",
+  clientId: "XXXXX", // OAuth 2 - can be the same as appId
+  authToken: "XXXXX", // OAuth 2
 }
 ```
 

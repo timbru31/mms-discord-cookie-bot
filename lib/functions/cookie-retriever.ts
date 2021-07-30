@@ -8,6 +8,7 @@ const TABLE_NAME = process.env.TABLE_NAME || "";
 const storeTranslations = {
   mmat: "Media Markt Austria",
   mmde: "Media Markt Germany",
+  mmes: "Media Markt Spain",
   saturn: "Saturn",
 };
 

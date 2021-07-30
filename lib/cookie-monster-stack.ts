@@ -48,10 +48,10 @@ export class CookieMonsterStack extends Stack {
       description: "This service serves the cookie retriever",
     });
 
-    const getCookieRetrieverIntegeration = new LambdaIntegration(handler, {
+    const getCookieRetrieverIntegration = new LambdaIntegration(handler, {
       requestTemplates: { "application/json": '{ "statusCode": "200" }' },
     });
 
-    api.root.addMethod("GET", getCookieRetrieverIntegeration);
+    api.root.addMethod("GET", getCookieRetrieverIntegration);
   }
 }
