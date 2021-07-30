@@ -12,10 +12,12 @@
 # Installation/Deployment
 
 Clone repository, setup the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/work-with.html#work-with-prerequisites).  
+You can restrict access to specific user roles, by setting the `USER_ROLE` environment variable.
 Configure the DynamoDB ARN by setting it as an environment variable `COOKIE_ARN`, for example:
 
 ```sh
 export COOKIE_ARN="arn:aws:dynamodb:eu-central-1:9999999:table/my-cookie-jar"
+export USER_ROLE="12345678"
 ```
 
 If you omit the ARN then the construct will create a new DynamoDB table for you

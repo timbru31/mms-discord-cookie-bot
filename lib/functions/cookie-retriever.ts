@@ -1,9 +1,14 @@
 import { DynamoDBClient, UpdateItemCommand, UpdateItemCommandInput } from "@aws-sdk/client-dynamodb";
 import axios from "axios";
-import { DiscordEventRequest, DiscordResponseData } from "discord-bot-cdk-construct";
+import { DiscordEventRequest, DiscordResponseData, DiscordMember as _DiscordMember } from "discord-bot-cdk-construct";
 import { getDiscordSecrets } from "discord-bot-cdk-construct/dist/functions/utils/DiscordSecrets";
 
-const TABLE_NAME = process.env.TABLE_NAME || "";
+interface DiscordMember extends _DiscordMember {
+  nick: string;
+}
+
+const tableName = process.env.TABLE_NAME || "";
+const userRole = process.env.USER_ROLE || "";
 
 const storeTranslations = {
   mmat: "Media Markt Austria",
@@ -19,25 +24,31 @@ export async function handler(event: DiscordEventRequest): Promise<string> {
     embeds: [],
     allowed_mentions: [],
   };
+  console.log(event?.jsonBody?.member?.roles);
   if (event?.jsonBody?.token) {
-    const store = event.jsonBody.data?.options?.find((option) => option?.name === "store")?.value as keyof typeof storeTranslations;
-    const productId = event.jsonBody.data?.options?.find((option) => option?.name === "product_id")?.value;
-    if (store && productId) {
-      const client = new DynamoDBClient({});
-      const params: UpdateItemCommandInput = {
-        TableName: TABLE_NAME,
-        Key: {
-          store: { S: store },
-          productId: { S: productId },
-        },
-        UpdateExpression: "REMOVE cookies[0]",
-        ReturnValues: "ALL_OLD",
-      };
-      const dbResponse = await client.send(new UpdateItemCommand(params));
-      if (dbResponse.Attributes?.cookies?.L?.length) {
-        response.content = `🍪 You requested a cookie for \`${dbResponse.Attributes.title.S}\`, \`${productId}\` at \`${storeTranslations[store]}\`, so here it is: \n${dbResponse.Attributes.cookies.L[0].S}`;
-      } else {
-        response.content = `📭 You requested a cookie for \`${productId}\` at \`${storeTranslations[store]}\`, but I'm out of 🍪. Nom nom nom.`;
+    if (userRole && !event?.jsonBody?.member?.roles?.includes(userRole)) {
+      response.content = "⚡️ You requested a cookie but are not authorized for this command! The violation has been recorded.";
+      console.log(`User '${(event?.jsonBody?.member as DiscordMember)?.nick}' tried to access the cookie command but is not authorized!`);
+    } else {
+      const store = event.jsonBody.data?.options?.find((option) => option?.name === "store")?.value as keyof typeof storeTranslations;
+      const productId = event.jsonBody.data?.options?.find((option) => option?.name === "product_id")?.value;
+      if (store && productId) {
+        const client = new DynamoDBClient({});
+        const params: UpdateItemCommandInput = {
+          TableName: tableName,
+          Key: {
+            store: { S: store },
+            productId: { S: productId },
+          },
+          UpdateExpression: "REMOVE cookies[0]",
+          ReturnValues: "ALL_OLD",
+        };
+        const dbResponse = await client.send(new UpdateItemCommand(params));
+        if (dbResponse.Attributes?.cookies?.L?.length) {
+          response.content = `🍪 You requested a cookie for \`${dbResponse.Attributes.title.S}\`, \`${productId}\` at \`${storeTranslations[store]}\`, so here it is: \n${dbResponse.Attributes.cookies.L[0].S}`;
+        } else {
+          response.content = `📭 You requested a cookie for \`${productId}\` at \`${storeTranslations[store]}\`, but I'm out of 🍪. Nom nom nom.`;
+        }
       }
     }
     await sendResponse(response, event.jsonBody.token);
