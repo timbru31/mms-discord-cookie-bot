@@ -26,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
     "aws-cdk": "1.122.0",
-    "esbuild": "^0.12.26",
+    "esbuild": "^0.12.28",
     "eslint": "^7.32.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
