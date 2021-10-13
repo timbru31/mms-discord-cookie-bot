@@ -20,7 +20,7 @@ export COOKIE_ARN="arn:aws:dynamodb:eu-central-1:9999999:table/my-cookie-jar"
 export USER_ROLE="12345678"
 ```
 
-If you omit the ARN then the construct will create a new DynamoDB table for you
+If you omit the ARN then the construct will create a new DynamoDB table for you.
 
 You need to create a [new Discord bot](https://discord.com/developers/applications) and register the [Slash command](https://discord.com/developers/docs/interactions/slash-commands#registering-a-command) (make sure to use the Bot token not the OAuth 2 token!). Ensure to configure two options: `store` and `productId` - or alter the code. 😉
 
@@ -39,6 +39,8 @@ In the AWS Secrets Manager, modify the created secret (paste it as plain text JS
 
 Enter the CDK construct Lambda URL with the suffix `/event` as your interaction URL.  
 Finally, configure the OAuth 2 scope (`bot` and `applications.commands`) and use the URL to add the bot to your server.
+
+You can configure a comma separated list of user roles that should be allowed to access the slash command (variable `USER_ROLES`). Violations are logged.
 
 ## Useful commands
 

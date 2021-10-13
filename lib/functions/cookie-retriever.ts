@@ -8,7 +8,10 @@ interface DiscordMember extends _DiscordMember {
 }
 
 const tableName = process.env.TABLE_NAME || "";
-const userRole = process.env.USER_ROLE || "";
+const userRoles =
+  process.env.USER_ROLES?.split(",")
+    ?.filter(Boolean)
+    ?.map((role) => role.trim()) || ([] as string[]);
 
 const storeTranslations = {
   mmat: "Media Markt Austria",
@@ -26,9 +29,9 @@ export async function handler(event: DiscordEventRequest): Promise<string> {
   };
   console.log(event?.jsonBody?.member?.roles);
   if (event?.jsonBody?.token) {
-    if (userRole && !event?.jsonBody?.member?.roles?.includes(userRole)) {
+    if (userRoles && Array.isArray(userRoles) && !event?.jsonBody?.member?.roles?.some((role) => userRoles.includes(role))) {
       response.content = "⚡️ You requested a cookie but are not authorized for this command! The violation has been recorded.";
-      console.log(`User '${(event?.jsonBody?.member as DiscordMember)?.nick}' tried to access the cookie command but is not authorized!`);
+      console.log(`User '${(event?.jsonBody?.member as DiscordMember)?.nick}' tried to access the command but is not authorized!`);
     } else {
       const store = event.jsonBody.data?.options?.find((option) => option?.name === "store")?.value as keyof typeof storeTranslations;
       const productId = event.jsonBody.data?.options?.find((option) => option?.name === "product_id")?.value;
