@@ -1,6 +1,6 @@
 # Cookie Monster
 
-> This serverless Discord Bot built using [GEMISIS/discord-bot-cdk-construct](https://github.com/GEMISIS/discord-bot-cdk-construct) serves you stored cart cookies for MediaMarkt and Saturn from a DynamoDB.
+> This serverless Discord Bot built using [GEMISIS/discord-bot-cdk-construct](https://github.com/GEMISIS/discord-bot-cdk-construct) serves you stored basket cookies for MediaMarkt and Saturn from a DynamoDB.
 
 ## Supported stores
 
