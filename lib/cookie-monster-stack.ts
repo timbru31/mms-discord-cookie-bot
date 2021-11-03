@@ -34,7 +34,7 @@ export class CookieMonsterStack extends Stack {
       timeout: Duration.seconds(3),
       environment: {
         TABLE_NAME: table.tableName,
-        USER_ROLE: process.env.USER_ROLE || "",
+        USER_ROLES: process.env.USER_ROLES || "",
       },
     });
 

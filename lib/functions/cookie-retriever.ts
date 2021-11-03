@@ -27,7 +27,6 @@ export async function handler(event: DiscordEventRequest): Promise<string> {
     embeds: [],
     allowed_mentions: [],
   };
-  console.log(event?.jsonBody?.member?.roles);
   if (event?.jsonBody?.token) {
     if (userRoles && Array.isArray(userRoles) && !event?.jsonBody?.member?.roles?.some((role) => userRoles.includes(role))) {
       response.content = "⚡️ You requested a cookie but are not authorized for this command! The violation has been recorded.";
@@ -48,7 +47,7 @@ export async function handler(event: DiscordEventRequest): Promise<string> {
         };
         const dbResponse = await client.send(new UpdateItemCommand(params));
         if (dbResponse.Attributes?.cookies?.L?.length) {
-          response.content = `🍪 You requested a cookie for \`${dbResponse.Attributes.title.S}\`, \`${productId}\` at \`${storeTranslations[store]}\`, so here it is: \n${dbResponse.Attributes.cookies.L[0].S}`;
+          response.content = `🍪 You requested a cookie for \`${dbResponse.Attributes.title.S}\`, \`${productId}\` at \`${storeTranslations[store]}\`, so here it is: \n<${dbResponse.Attributes.cookies.L[0].S}>`;
         } else {
           response.content = `📭 You requested a cookie for \`${productId}\` at \`${storeTranslations[store]}\`, but I'm out of 🍪. Nom nom nom.`;
         }
