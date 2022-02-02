@@ -29,7 +29,7 @@
     "esbuild": "^0.14.16",
     "eslint": "^7.32.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.2",
+    "lint-staged": "^12.3.3",
     "patch-package": "^6.4.7",
     "prettier": "^2.5.1",
     "ts-node": "^10.4.0",
