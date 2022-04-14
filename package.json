@@ -22,7 +22,7 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "@types/node": "^14.18.12",
+    "@types/node": "^14.18.13",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "aws-cdk": "2.20.0",
